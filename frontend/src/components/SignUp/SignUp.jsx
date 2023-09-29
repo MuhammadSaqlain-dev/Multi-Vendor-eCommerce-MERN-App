@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { RxAvatar } from "react-icons/rx";
+import axios from "axios";
 
 import styles from "../../styles/styles.js";
 
@@ -24,10 +25,31 @@ const SignUp = () => {
     reader.readAsDataURL(e.target.files[0]);
   };
 
-  const submitFormHandler = (e) => {
+  const submitFormHandler = async (e) => {
     e.preventDefault();
 
-    console.log("you are sign'ed up");
+    const myForm = new FormData();
+
+    myForm.append("name", name);
+    myForm.append("email", email);
+    myForm.append("password", password);
+    myForm.append("file", avatar);
+
+    const uri = "http://localhost:4000/api/v1/user/create-user";
+
+    try {
+      const response = await axios.post(uri, myForm, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      // Handle the response, e.g., show a success message or redirect the user.
+      console.log("Response:", response);
+    } catch (error) {
+      // Handle errors, e.g., show an error message to the user.
+      console.error("Error:", error);
+    }
   };
 
   return (
@@ -39,7 +61,12 @@ const SignUp = () => {
       </div>
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <form className="space-y-6" onSubmit={submitFormHandler}>
+          <form
+            className="space-y-6"
+            onSubmit={submitFormHandler}
+            method="post"
+            encType="multipart/form-data"
+          >
             <div className="block text-sm font-medium text-gray-700">
               <label htmlFor="name">Full Name</label>
               <div className="mt-1">
@@ -126,7 +153,7 @@ const SignUp = () => {
                   <span>Upload a file</span>
                   <input
                     type="file"
-                    name="avatar"
+                    name="file"
                     id="file-input"
                     accept=".jpg,.jpeg,.png"
                     onChange={handleFileInputChange}
