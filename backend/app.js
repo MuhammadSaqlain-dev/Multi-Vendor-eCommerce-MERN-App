@@ -16,7 +16,12 @@ app.use(bodyParser.json());
 app.use(fileupload());
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 
 // import route controllers
 const user = require("./controllers/userController");

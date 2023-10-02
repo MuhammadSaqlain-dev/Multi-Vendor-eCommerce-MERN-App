@@ -1,17 +1,31 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 import styles from "../../styles/styles.js";
+import { server } from "../../server.js";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState("");
 
-  const submitFormHandler = (e) => {
-    e.prevntDefault();
-    console.log("loggedIn");
+  const submitFormHandler = async (e) => {
+    e.preventDefault();
+    try {
+      await axios
+        .post(
+          `${server}/user/login`,
+          { email, password },
+          { withCredentials: true }
+        )
+        .then((res) => toast.success("Login success"))
+        .catch((e) => toast.error(e.response.data.message));
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
   };
 
   return (

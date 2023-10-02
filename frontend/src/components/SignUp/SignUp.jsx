@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { RxAvatar } from "react-icons/rx";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 import styles from "../../styles/styles.js";
 
@@ -43,12 +44,16 @@ const SignUp = () => {
           "Content-Type": "multipart/form-data",
         },
       });
+      setName("");
+      setPassword("");
+      setEmail("");
+      setAvatar(null);
 
       // Handle the response, e.g., show a success message or redirect the user.
-      console.log("Response:", response);
+      toast.success(response.data.message);
     } catch (error) {
       // Handle errors, e.g., show an error message to the user.
-      console.error("Error:", error);
+      toast.error(error.response.data.message);
     }
   };
 
