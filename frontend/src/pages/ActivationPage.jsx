@@ -23,7 +23,7 @@ const ActivationPage = () => {
 
       sendResponse();
     }
-  }, []);
+  }, [activation_token]);
 
   return (
     <div

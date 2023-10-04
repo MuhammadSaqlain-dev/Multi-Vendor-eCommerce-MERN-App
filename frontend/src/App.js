@@ -5,7 +5,16 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import { LoginPage, SignUpPage, ActivationPage } from "./routes/Route.js";
+import {
+  LoginPage,
+  SignUpPage,
+  ActivationPage,
+  HomePage,
+  ProductsPage,
+  EventsPage,
+  FAQPage,
+  BestSellingPage,
+} from "./routes/Route.js";
 import Store from "./redux/store";
 import { loadUser } from "./redux/actions/userAction";
 
@@ -16,6 +25,11 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
+        <Route exact path="/" element={<HomePage />} />
+        <Route exact path="/best-selling" element={<BestSellingPage />} />
+        <Route exact path="/products" element={<ProductsPage />} />
+        <Route exact path="/events" element={<EventsPage />} />
+        <Route exact path="/faq" element={<FAQPage />} />
         <Route exact path="/login" element={<LoginPage />} />
         <Route exact path="/sign-up" element={<SignUpPage />} />
         <Route
