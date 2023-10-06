@@ -11,7 +11,7 @@ import { productData } from "../static/data";
 const ProductsPage = () => {
   const [searchParams] = useSearchParams();
   const categoryData = searchParams.get("category");
-  //   const {allProducts,isLoading} = useSelector((state) => state.products);
+  // const {allProducts,isLoading} = useSelector((state) => state.products);
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ const ProductsPage = () => {
       setData(d);
     }
     //    window.scrollTo(0,0);
-  }, [productData, categoryData]);
+  }, [categoryData]);
 
   return (
     <>

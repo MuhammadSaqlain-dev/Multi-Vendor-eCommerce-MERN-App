@@ -18,6 +18,8 @@ import Wishlist from "../Wishlist/Wishlist.jsx";
 import { RxCross1 } from "react-icons/rx";
 
 const Header = ({ activeHeading }) => {
+  const { isAuthenticated, user } = useSelector((state) => state.user);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [searchData, setSearchData] = useState(null);
   const [dropDown, setDropDown] = useState(false);
@@ -172,10 +174,7 @@ const Header = ({ activeHeading }) => {
 
             <div className={`${styles.normalFlex}`}>
               <div className="relative cursor-pointer mr-[15px]">
-                <Link to="/login">
-                  <CgProfile size={30} color="rgb(255 255 255 / 83%)" />
-                </Link>
-                {/* {isAuthenticated ? (
+                {isAuthenticated ? (
                   <Link to="/profile">
                     <img
                       src={`${user?.avatar?.url}`}
@@ -187,7 +186,7 @@ const Header = ({ activeHeading }) => {
                   <Link to="/login">
                     <CgProfile size={30} color="rgb(255 255 255 / 83%)" />
                   </Link>
-                )} */}
+                )}
               </div>
             </div>
 

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -8,6 +8,7 @@ import styles from "../../styles/styles.js";
 import { server } from "../../server.js";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState("");
@@ -21,7 +22,11 @@ const Login = () => {
           { email, password },
           { withCredentials: true }
         )
-        .then((res) => toast.success("Login success"))
+        .then((res) => {
+          toast.success("Login success");
+          navigate("/");
+          window.location.reload(true);
+        })
         .catch((e) => toast.error(e.response.data.message));
     } catch (error) {
       toast.error(error.response.data.message);

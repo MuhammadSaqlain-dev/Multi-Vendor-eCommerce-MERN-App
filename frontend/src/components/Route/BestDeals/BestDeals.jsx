@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import styles from "../../../styles/styles";
 import ProductCard from "../ProductCard/ProductCard";
 import { productData } from "../../../static/data";
@@ -12,7 +12,7 @@ const BestDeals = () => {
     const sortedData = allProductsData?.sort((a, b) => b.sold_out - a.sold_out);
     const firstFive = sortedData && sortedData.slice(0, 5);
     setData(firstFive);
-  }, [productData]);
+  }, []);
 
   return (
     <div>

@@ -43,3 +43,9 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
+.redColor {
+  color: red;
+}
+.greenColor {
+  color: green;
+}

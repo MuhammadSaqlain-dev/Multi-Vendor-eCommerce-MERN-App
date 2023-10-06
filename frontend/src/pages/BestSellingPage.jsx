@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 // import { useSelector } from "react-redux";
-import { useSearchParams } from "react-router-dom";
+// import { useSearchParams } from "react-router-dom";
 import Header from "../components/Layout/Header";
 import Loader from "../components/Layout/Loader";
 import ProductCard from "../components/Route/ProductCard/ProductCard";
@@ -16,7 +16,7 @@ const BestSellingPage = () => {
     const allProductsData = productData ? [...productData] : [];
     const sortedData = allProductsData?.sort((a, b) => b.sold_out - a.sold_out);
     setData(sortedData);
-  }, [productData]);
+  }, []);
 
   return (
     <>
