@@ -25,8 +25,10 @@ app.use(
 
 // import route controllers
 const user = require("./controllers/userController");
+const shop = require("./controllers/shopController");
 
 app.use("/api/v1/user", user);
+app.use("/api/v1/shop", shop);
 
 // Error Middle ware
 app.use(ErrorMiddleWare);

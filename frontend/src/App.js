@@ -19,14 +19,21 @@ import {
   PaymentPage,
   OrderSuccessPage,
   ProfilePage,
+  ShopLoginPage,
+  ShopCreatePage,
+  SellerActivationPage,
+  ShopHomePage,
 } from "./routes/Route.js";
 import Store from "./redux/store";
-import { loadUser } from "./redux/actions/userAction";
+import { loadSeller, loadUser } from "./redux/actions/userAction";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import SellerProtectedRoute from "./routes/SellerProtectedRoute";
+import { ShopDashboardPage } from "./routes/ShopeRoutes";
 
 const App = () => {
   useEffect(() => {
     Store.dispatch(loadUser());
+    Store.dispatch(loadSeller());
   }, []);
   return (
     <BrowserRouter>
@@ -35,8 +42,24 @@ const App = () => {
         <Route exact path="/best-selling" element={<BestSellingPage />} />
         <Route exact path="/products" element={<ProductsPage />} />
         <Route exact path="/product/:name" element={<ProductDetailsPage />} />
-        <Route exact path="/checkout" element={<CheckoutPage />} />
-        <Route exact path="/payment" element={<PaymentPage />} />
+        <Route
+          exact
+          path="/checkout"
+          element={
+            <ProtectedRoute>
+              <CheckoutPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          exact
+          path="/payment"
+          element={
+            <ProtectedRoute>
+              <PaymentPage />
+            </ProtectedRoute>
+          }
+        />
         <Route exact path="/order/success/:id" element={<OrderSuccessPage />} />
         <Route exact path="/events" element={<EventsPage />} />
         <Route exact path="/faq" element={<FAQPage />} />
@@ -56,6 +79,32 @@ const App = () => {
           path="/activate/:activation_token"
           element={<ActivationPage />}
         />
+
+        {/* Seller Routes */}
+        <Route exact path="/shop-create" element={<ShopCreatePage />} />
+        <Route exact path="/shop-login" element={<ShopLoginPage />} />
+        <Route
+          exact
+          path="/seller/activate/:activation_token"
+          element={<SellerActivationPage />}
+        />
+        <Route
+          path="/dashboard"
+          element={
+            <SellerProtectedRoute>
+              <ShopDashboardPage />
+            </SellerProtectedRoute>
+          }
+        />
+        <Route
+          path="/shop/:id"
+          element={
+            <SellerProtectedRoute>
+              <ShopHomePage />
+            </SellerProtectedRoute>
+          }
+        />
+        {/* Seller Routes */}
       </Routes>
       <ToastContainer
         position="bottom-center"
