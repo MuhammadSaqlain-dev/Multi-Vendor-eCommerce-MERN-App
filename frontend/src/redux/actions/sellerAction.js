@@ -1,16 +1,25 @@
 import axios from "axios";
 import { server } from "../../server";
 
-// load Shop
-export const loadShop = () => async (dispatch) => {
+// get all sellers --- admin
+export const getAllSellers = () => async (dispatch) => {
   try {
-    dispatch({ type: "LoadSellerRequest" });
-    const { data } = await axios.get(`${server}/shop/getshop`, {
+    dispatch({
+      type: "getAllSellersRequest",
+    });
+
+    const { data } = await axios.get(`${server}/shop/admin-all-sellers`, {
       withCredentials: true,
     });
 
-    dispatch({ type: "LoadSellerSuccess", payload: data.seller });
+    dispatch({
+      type: "getAllSellersSuccess",
+      payload: data.sellers,
+    });
   } catch (error) {
-    dispatch({ type: "LoadSellerFail", payload: error.response.data.message });
+    dispatch({
+      type: "getAllSellerFailed",
+      //   payload: error.response.data.message,
+    });
   }
 };

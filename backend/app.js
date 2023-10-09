@@ -26,9 +26,21 @@ app.use(
 // import route controllers
 const user = require("./controllers/userController");
 const shop = require("./controllers/shopController");
+const product = require("./controllers/productController");
+const event = require("./controllers/eventController");
+const order = require("./controllers/orderController");
+const coupon = require("./controllers/couponController");
+const withdraw = require("./controllers/withdrawController");
+const payment = require("./controllers/paymentController");
 
 app.use("/api/v1/user", user);
 app.use("/api/v1/shop", shop);
+app.use("/api/v1/product", product);
+app.use("/api/v1/event", event);
+app.use("/api/v1/order", order);
+app.use("/api/v1/coupon", coupon);
+app.use("/api/v1/withdraw", withdraw);
+app.use("/api/v1/payment", payment);
 
 // Error Middle ware
 app.use(ErrorMiddleWare);
