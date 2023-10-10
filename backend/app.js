@@ -23,6 +23,10 @@ app.use(
   })
 );
 
+app.use("/testing", (req, res) => {
+  res.send("Hello World, it's working.");
+});
+
 // import route controllers
 const user = require("./controllers/userController");
 const shop = require("./controllers/shopController");
