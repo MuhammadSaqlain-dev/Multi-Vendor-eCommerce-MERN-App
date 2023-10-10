@@ -3,7 +3,7 @@ import Header from "../components/Layout/Header";
 import styles from "../styles/styles";
 import Loader from "../components/Layout/Loader";
 import ProfileSideBar from "../components/Profile/ProfileSidebar.jsx";
-import ProfileContent from "../components/Profile/ProfileContent.jsx";
+import ProfileContent from "../components/Profile/ProfileContent";
 import { useSelector } from "react-redux";
 
 const ProfilePage = () => {

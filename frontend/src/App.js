@@ -1,36 +1,27 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
-import "tailwindcss/tailwind.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";
-import { server } from "./server";
-
 import {
   LoginPage,
   SignUpPage,
   ActivationPage,
   HomePage,
   ProductsPage,
+  BestSellingPage,
   EventsPage,
   FAQPage,
-  BestSellingPage,
-  ProductDetailsPage,
   CheckoutPage,
   PaymentPage,
   OrderSuccessPage,
+  ProductDetailsPage,
   ProfilePage,
-  ShopLoginPage,
   ShopCreatePage,
   SellerActivationPage,
+  ShopLoginPage,
+  OrderDetailsPage,
+  TrackOrderPage,
   ShopHomePage,
-} from "./routes/Route.js";
-import Store from "./redux/store";
-import { loadSeller, loadUser } from "./redux/actions/userAction";
-import ProtectedRoute from "./routes/ProtectedRoute";
-import SellerProtectedRoute from "./routes/SellerProtectedRoute";
-import AdminProtectedRoute from "./routes/AdminProtectedRoute.js";
+} from "./routes/Route";
 import {
   ShopDashboardPage,
   ShopCreateProduct,
@@ -53,9 +44,17 @@ import {
   AdminDashboardProducts,
   AdminDashboardEvents,
   AdminDashboardWithdraw,
-} from "./routes/AdminRoutes.js";
+} from "./routes/AdminRoutes";
+import { ToastContainer } from "react-toastify";
+import Store from "./redux/store";
+import { loadSeller, loadUser } from "./redux/actions/userAction";
+import ProtectedRoute from "./routes/ProtectedRoute";
+import AdminProtectedRoute from "./routes/AdminProtectedRoute";
+import SellerProtectedRoute from "./routes/SellerProtectedRoute";
 import { getAllProducts } from "./redux/actions/productAction";
 import { getAllEvents } from "./redux/actions/eventAction";
+import axios from "axios";
+import { server } from "./server";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 
@@ -66,7 +65,6 @@ const App = () => {
     const { data } = await axios.get(`${server}/payment/stripeapikey`);
     setStripeApiKey(data.stripeApikey);
   }
-
   useEffect(() => {
     Store.dispatch(loadUser());
     Store.dispatch(loadSeller());
@@ -74,6 +72,7 @@ const App = () => {
     Store.dispatch(getAllEvents());
     getStripeApikey();
   }, []);
+
   return (
     <BrowserRouter>
       {stripeApikey && (
@@ -90,14 +89,24 @@ const App = () => {
           </Routes>
         </Elements>
       )}
-
       <Routes>
-        <Route exact path="/" element={<HomePage />} />
-        <Route exact path="/best-selling" element={<BestSellingPage />} />
-        <Route exact path="/products" element={<ProductsPage />} />
-        <Route exact path="/product/:id" element={<ProductDetailsPage />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/sign-up" element={<SignUpPage />} />
         <Route
-          exact
+          path="/activation/:activation_token"
+          element={<ActivationPage />}
+        />
+        <Route
+          path="/seller/activation/:activation_token"
+          element={<SellerActivationPage />}
+        />
+        <Route path="/products" element={<ProductsPage />} />
+        <Route path="/product/:id" element={<ProductDetailsPage />} />
+        <Route path="/best-selling" element={<BestSellingPage />} />
+        <Route path="/events" element={<EventsPage />} />
+        <Route path="/faq" element={<FAQPage />} />
+        <Route
           path="/checkout"
           element={
             <ProtectedRoute>
@@ -105,13 +114,8 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-        <Route exact path="/order/success/:id" element={<OrderSuccessPage />} />
-        <Route exact path="/events" element={<EventsPage />} />
-        <Route exact path="/faq" element={<FAQPage />} />
-        <Route exact path="/login" element={<LoginPage />} />
-        <Route exact path="/sign-up" element={<SignUpPage />} />
+        <Route path="/order/success" element={<OrderSuccessPage />} />
         <Route
-          exact
           path="/profile"
           element={
             <ProtectedRoute>
@@ -120,36 +124,25 @@ const App = () => {
           }
         />
         <Route
-          exact
-          path="/activate/:activation_token"
-          element={<ActivationPage />}
+          path="/user/order/:id"
+          element={
+            <ProtectedRoute>
+              <OrderDetailsPage />
+            </ProtectedRoute>
+          }
         />
-        {/* <Route
+        <Route
           path="/user/track/order/:id"
           element={
             <ProtectedRoute>
               <TrackOrderPage />
             </ProtectedRoute>
           }
-        /> */}
+        />
         <Route path="/shop/preview/:id" element={<ShopPreviewPage />} />
-
-        {/* Seller Routes */}
-        <Route exact path="/shop-create" element={<ShopCreatePage />} />
-        <Route exact path="/shop-login" element={<ShopLoginPage />} />
-        <Route
-          exact
-          path="/seller/activate/:activation_token"
-          element={<SellerActivationPage />}
-        />
-        <Route
-          path="/dashboard"
-          element={
-            <SellerProtectedRoute>
-              <ShopDashboardPage />
-            </SellerProtectedRoute>
-          }
-        />
+        {/* shop Routes */}
+        <Route path="/shop-create" element={<ShopCreatePage />} />
+        <Route path="/shop-login" element={<ShopLoginPage />} />
         <Route
           path="/shop/:id"
           element={
@@ -163,6 +156,14 @@ const App = () => {
           element={
             <SellerProtectedRoute>
               <ShopSettingsPage />
+            </SellerProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard"
+          element={
+            <SellerProtectedRoute>
+              <ShopDashboardPage />
             </SellerProtectedRoute>
           }
         />
@@ -239,9 +240,7 @@ const App = () => {
             </SellerProtectedRoute>
           }
         />
-        {/* Seller Routes end here */}
-
-        {/* Admin Routes Start here */}
+        {/* Admin Routes */}
         <Route
           path="/admin/dashboard"
           element={
@@ -298,8 +297,6 @@ const App = () => {
             </AdminProtectedRoute>
           }
         />
-
-        {/* Admin Routes end here */}
       </Routes>
       <ToastContainer
         position="bottom-center"
@@ -311,7 +308,7 @@ const App = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="light"
+        theme="dark"
       />
     </BrowserRouter>
   );

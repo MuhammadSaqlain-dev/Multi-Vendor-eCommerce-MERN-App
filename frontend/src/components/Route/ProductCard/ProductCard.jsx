@@ -52,6 +52,7 @@ const ProductCard = ({ data, isEvent }) => {
         toast.error("Product stock limited!");
       } else {
         const cartData = { ...data, qty: 1 };
+        console.log(cartData);
         dispatch(addToCart(cartData));
         toast.success("Item added to cart successfully!");
       }

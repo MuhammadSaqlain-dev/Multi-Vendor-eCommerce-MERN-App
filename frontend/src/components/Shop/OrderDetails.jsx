@@ -22,6 +22,7 @@ const OrderDetails = () => {
   }, [dispatch, seller._id]);
 
   const data = orders && orders.find((item) => item._id === id);
+  console.log(data);
 
   const orderUpdateHandler = async (e) => {
     await axios
@@ -126,7 +127,7 @@ const OrderDetails = () => {
         <div className="w-full 800px:w-[40%]">
           <h4 className="pt-3 text-[20px]">Payment Info:</h4>
           <h4>
-            Status:{" "}
+            Status:
             {data?.paymentInfo?.status ? data?.paymentInfo?.status : "Not Paid"}
           </h4>
         </div>
