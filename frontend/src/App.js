@@ -1,9 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import "tailwindcss/tailwind.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
+import { server } from "./server";
 
 import {
   LoginPage,
@@ -28,6 +30,7 @@ import Store from "./redux/store";
 import { loadSeller, loadUser } from "./redux/actions/userAction";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import SellerProtectedRoute from "./routes/SellerProtectedRoute";
+import AdminProtectedRoute from "./routes/AdminProtectedRoute.js";
 import {
   ShopDashboardPage,
   ShopCreateProduct,
@@ -42,18 +45,52 @@ import {
   ShopSettingsPage,
   ShopWithDrawMoneyPage,
 } from "./routes/ShopRoutes";
+import {
+  AdminDashboardPage,
+  AdminDashboardUsers,
+  AdminDashboardSellers,
+  AdminDashboardOrders,
+  AdminDashboardProducts,
+  AdminDashboardEvents,
+  AdminDashboardWithdraw,
+} from "./routes/AdminRoutes.js";
 import { getAllProducts } from "./redux/actions/productAction";
 import { getAllEvents } from "./redux/actions/eventAction";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 
 const App = () => {
+  const [stripeApikey, setStripeApiKey] = useState("");
+
+  async function getStripeApikey() {
+    const { data } = await axios.get(`${server}/payment/stripeapikey`);
+    setStripeApiKey(data.stripeApikey);
+  }
+
   useEffect(() => {
     Store.dispatch(loadUser());
     Store.dispatch(loadSeller());
     Store.dispatch(getAllProducts());
     Store.dispatch(getAllEvents());
+    getStripeApikey();
   }, []);
   return (
     <BrowserRouter>
+      {stripeApikey && (
+        <Elements stripe={loadStripe(stripeApikey)}>
+          <Routes>
+            <Route
+              path="/payment"
+              element={
+                <ProtectedRoute>
+                  <PaymentPage />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+        </Elements>
+      )}
+
       <Routes>
         <Route exact path="/" element={<HomePage />} />
         <Route exact path="/best-selling" element={<BestSellingPage />} />
@@ -65,15 +102,6 @@ const App = () => {
           element={
             <ProtectedRoute>
               <CheckoutPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          exact
-          path="/payment"
-          element={
-            <ProtectedRoute>
-              <PaymentPage />
             </ProtectedRoute>
           }
         />
@@ -96,6 +124,14 @@ const App = () => {
           path="/activate/:activation_token"
           element={<ActivationPage />}
         />
+        {/* <Route
+          path="/user/track/order/:id"
+          element={
+            <ProtectedRoute>
+              <TrackOrderPage />
+            </ProtectedRoute>
+          }
+        /> */}
         <Route path="/shop/preview/:id" element={<ShopPreviewPage />} />
 
         {/* Seller Routes */}
@@ -204,6 +240,66 @@ const App = () => {
           }
         />
         {/* Seller Routes end here */}
+
+        {/* Admin Routes Start here */}
+        <Route
+          path="/admin/dashboard"
+          element={
+            <AdminProtectedRoute>
+              <AdminDashboardPage />
+            </AdminProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin-users"
+          element={
+            <AdminProtectedRoute>
+              <AdminDashboardUsers />
+            </AdminProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin-sellers"
+          element={
+            <AdminProtectedRoute>
+              <AdminDashboardSellers />
+            </AdminProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin-orders"
+          element={
+            <AdminProtectedRoute>
+              <AdminDashboardOrders />
+            </AdminProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin-products"
+          element={
+            <AdminProtectedRoute>
+              <AdminDashboardProducts />
+            </AdminProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin-events"
+          element={
+            <AdminProtectedRoute>
+              <AdminDashboardEvents />
+            </AdminProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin-withdraw-request"
+          element={
+            <AdminProtectedRoute>
+              <AdminDashboardWithdraw />
+            </AdminProtectedRoute>
+          }
+        />
+
+        {/* Admin Routes end here */}
       </Routes>
       <ToastContainer
         position="bottom-center"

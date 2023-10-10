@@ -1,11 +1,12 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { server } from "../server";
 
 const SellerActivationPage = () => {
   const { activation_token } = useParams();
+  const navigate = useNavigate();
   const [error, setError] = useState(false);
 
   useEffect(() => {
@@ -16,6 +17,7 @@ const SellerActivationPage = () => {
             activation_token,
           })
           .then((res) => {
+            navigate("/dashboard");
             console.log(res);
           })
           .catch((err) => {
@@ -25,7 +27,7 @@ const SellerActivationPage = () => {
       };
       sendRequest();
     }
-  }, [activation_token]);
+  }, [activation_token, navigate]);
 
   return (
     <div

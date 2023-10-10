@@ -59,8 +59,6 @@ const OrderDetails = () => {
       });
   };
 
-  console.log(data?.status);
-
   return (
     <div className={`py-4 min-h-screen ${styles.section}`}>
       <div className="w-full flex items-center justify-between">

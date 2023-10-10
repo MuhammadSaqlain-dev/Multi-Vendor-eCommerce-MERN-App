@@ -10,7 +10,6 @@ const ProductDetailsPage = () => {
   const { allProducts } = useSelector((state) => state.products);
   const { allEvents } = useSelector((state) => state.events);
   const { id } = useParams();
-  console.log(id);
   const [data, setData] = useState(null);
   const [searchParams] = useSearchParams();
   const eventData = searchParams.get("isEvent");

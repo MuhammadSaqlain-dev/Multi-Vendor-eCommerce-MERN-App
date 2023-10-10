@@ -81,7 +81,7 @@ const Header = ({ activeHeading }) => {
                 {searchData &&
                   searchData.map((i, index) => {
                     return (
-                      <Link to={`/product/${i._id}`} key={index}>
+                      <Link to={`/product/${i._id}`}>
                         <div className="w-full flex items-start-py-3">
                           <img
                             src={`${i.images[0]?.url}`}
@@ -100,7 +100,7 @@ const Header = ({ activeHeading }) => {
           <div className={`${styles.button}`}>
             <Link to={`${isSeller ? "/dashboard" : "/shop-create"}`}>
               <h1 className="text-[#fff] flex items-center">
-                {isSeller ? "Go Dashboard" : "Become Seller"}
+                {isSeller ? "Go Dashboard" : "Become Seller"}{" "}
                 <IoIosArrowForward className="ml-1" />
               </h1>
             </Link>
@@ -229,7 +229,7 @@ const Header = ({ activeHeading }) => {
               onClick={() => setOpenCart(true)}
             >
               <AiOutlineShoppingCart size={30} />
-              <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px]  leading-tight text-center">
+              <span class="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px]  leading-tight text-center">
                 {cart && cart.length}
               </span>
             </div>
@@ -254,7 +254,7 @@ const Header = ({ activeHeading }) => {
                     onClick={() => setOpenWishlist(true) || setOpen(false)}
                   >
                     <AiOutlineHeart size={30} className="mt-5 ml-3" />
-                    <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px]  leading-tight text-center">
+                    <span class="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px]  leading-tight text-center">
                       {wishlist && wishlist.length}
                     </span>
                   </div>

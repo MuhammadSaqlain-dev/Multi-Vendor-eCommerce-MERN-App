@@ -6,6 +6,7 @@ import styles from "../../styles/styles";
 import Loader from "../Layout/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProductsShop } from "../../redux/actions/productAction";
+import { toast } from "react-toastify";
 
 const ShopInfo = ({ isOwner }) => {
   const [data, setData] = useState({});
@@ -24,7 +25,7 @@ const ShopInfo = ({ isOwner }) => {
         setIsLoading(false);
       })
       .catch((error) => {
-        console.log(error);
+        toast.error(error.response.data.message);
         setIsLoading(false);
       });
   }, [id, dispatch]);
