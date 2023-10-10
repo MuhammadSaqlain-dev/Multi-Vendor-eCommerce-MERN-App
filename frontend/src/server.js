@@ -1,1 +1,1 @@
-exports.server = "http://localhost:4000/api/v1";
+exports.server = "https://multi-vendor-e-commerce-mern-app.vercel.app/api/v1";

@@ -6,6 +6,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 import styles from "../../styles/styles.js";
+import { server } from "../../server";
 
 const SignUp = () => {
   const [name, setName] = useState("");
@@ -36,7 +37,7 @@ const SignUp = () => {
     myForm.append("password", password);
     myForm.append("file", avatar);
 
-    const uri = "http://localhost:4000/api/v1/user/create-user";
+    const uri = `${server}/user/create-user`;
 
     try {
       const response = await axios.post(uri, myForm, {

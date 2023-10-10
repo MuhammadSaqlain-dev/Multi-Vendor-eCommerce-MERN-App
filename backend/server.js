@@ -23,9 +23,7 @@ cloudinary.config({
 });
 
 const server = app.listen(process.env.PORT, () =>
-  console.log(
-    `server is connected to port http://localhost:${process.env.PORT}`
-  )
+  console.log(`server is connected to port ${process.env.PORT}`)
 );
 
 // unhandled promise rejections

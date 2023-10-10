@@ -39,7 +39,7 @@ router.post(
     };
 
     const activationToken = createActivationToken(user);
-    const activationUrl = `http://localhost:3000/activate/${activationToken}`;
+    const activationUrl = `https://multi-vendor-e-commerce-mern-app-frontend.vercel.app/activate/${activationToken}`;
 
     try {
       sendEmail({
