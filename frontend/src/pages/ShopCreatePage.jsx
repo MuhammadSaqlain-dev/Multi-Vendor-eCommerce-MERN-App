@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import ShopCreate from "../components/Shop/ShopCreate.jsx";
 
 const ShopCreatePage = () => {

@@ -24,7 +24,7 @@ app.use(
 );
 
 app.use("/testing", (req, res) => {
-  res.send("Hello World, it's working.");
+  res.send("Hello World, it's working..");
 });
 
 // import route controllers
