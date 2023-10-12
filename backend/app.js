@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "https://multi-vendor-e-commerce-mern-app-frontend.vercel.app",
+    origin: "*",
     credentials: true,
   })
 );
